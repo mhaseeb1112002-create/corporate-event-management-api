@@ -41,7 +41,7 @@ try:
         dialog = page.locator('.auth-container')
         dialog.locator('input').nth(0).fill('demo-user')
         dialog.locator('input').nth(1).fill('temporary-demo-password')
-        page.locator('.modal-ux').get_by_role('button', name='Authorize', exact=True).click()
+        page.get_by_role('button', name='Authorize', exact=True).last.click()
         page.get_by_role('button', name='Close', exact=True).last.click()
 
         def execute(method, path, name, params=None, body=None, expected=200):
