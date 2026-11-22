@@ -1,0 +1,30 @@
+name: Capture Swagger screenshots
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/swagger-screenshots.yml
+      - capture_swagger.py
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt playwright
+      - name: Install Chromium
+        run: python -m playwright install --with-deps chromium
+      - name: Capture Swagger UI
+        run: python capture_swagger.py
+      - name: Save screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swagger-screenshots
+          path: swagger-screenshots/
+          if-no-files-found: warn
